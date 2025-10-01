@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { $Enums, User } from '@prisma/client';
 import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { Role } from 'src/constants/roles.enum';
 import {
@@ -6,7 +6,7 @@ import {
   ToLower,
 } from 'src/decorators/transformers/transformer.decorator';
 
-export class CreateUserDto implements Partial<User> {
+export class CreateUserDto implements Omit<User, 'id'> {
   @IsString()
   @IsNotEmpty()
   @Capitalize()
