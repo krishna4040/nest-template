@@ -1,1 +1,3 @@
-export interface Env {}
+export interface Env {
+  JWT_SECRET: string;
+}

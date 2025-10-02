@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
@@ -9,27 +8,30 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RolesGuard } from 'src/guards/roles/roles.guard';
 import { Roles } from 'src/decorators/roles/roles.decorator';
 import { Role } from 'src/constants/roles.enum';
 import { AuthGuard } from 'src/guards/auth/auth.guard';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { UserResponse } from './dto/response.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
   @Get()
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
-  findAll() {
-    return this.usersService.findAll();
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiResponse({ status: 200, description: 'Success', type: [UserResponse] })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden: insufficient permissions',
+  })
+  async findAll(): Promise<Array<UserResponse>> {
+    return await this.usersService.findAll();
   }
 
   @Get(':id')

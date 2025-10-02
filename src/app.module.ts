@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './core/users/users.module';
 import { AuthModule } from './core/auth/auth.module';
-import { DbService } from './db/db.service';
+import { DbModule } from './db/db.module';
 
 import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { ConfigModule } from '@nestjs/config';
@@ -31,8 +31,9 @@ import { ThrottlerModule } from '@nestjs/throttler';
     }),
     UsersModule,
     AuthModule,
+    DbModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DbService],
+  providers: [AppService],
 })
 export class AppModule {}
