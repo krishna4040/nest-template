@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { $Enums, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import {
   IsEmail,
   IsEnum,
@@ -14,7 +14,7 @@ import {
   ToLower,
 } from 'src/decorators/transformers/transformer.decorator';
 
-export class CreateUserDto implements Omit<User, 'id'> {
+export class CreateUserDto implements Omit<User, 'id' | 'refresh_token'> {
   @IsString()
   @IsNotEmpty()
   @Capitalize()

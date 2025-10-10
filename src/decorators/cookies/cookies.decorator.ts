@@ -1,8 +1,10 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { Record } from '@prisma/client/runtime/library';
+import type { Request } from 'express';
 
-export const Cookies = createParamDecorator(
-  (data: string, ctx: ExecutionContext) => {
-    const request = ctx.switchToHttp().getRequest();
-    return data ? request.cookies?.[data] : request.cookies;
+export const Cookie = createParamDecorator(
+  (_: string, ctx: ExecutionContext): Record<string, any> => {
+    const request = ctx.switchToHttp().getRequest<Request>();
+    return request.cookies;
   },
 );
